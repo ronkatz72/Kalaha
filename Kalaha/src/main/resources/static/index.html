@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <script>
+      function buttonClicked (buttonNumber) {
+        var request = new XMLHttpRequest();
+        request.open('POST', '/kalaha/play/' + buttonNumber);
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        //request.send('pitNumber=' + buttonNumber);
+        request.send();
+        request.addEventListener('load', function () {
+          response = JSON.parse(request.responseText);
+          for (var i=0; i<response.length; i++) {        	  
+            document.getElementById('button' + (i)).value = response[i];
+          }
+          updateText();
+        });       
+      }
+
+    function newGame(){
+    var request = new XMLHttpRequest();
+	    request.open('POST', '/startGame');
+	    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	    request.send();
+	    request.addEventListener('load', function () {
+	    	response = JSON.parse(request.responseText);
+	          for (var i=0; i<response.length; i++) {        	  
+	              document.getElementById('button' + (i)).value = response[i];
+	            }
+	          document.getElementById('textBox').innerHTML = "Good luck & Happy Kalaha! | Next turn: Player1";
+	    });
+    }
+    
+    function updateText(){
+        var request = new XMLHttpRequest();
+    	    request.open('GET', '/getMessage');
+    	    request.send();
+    	    request.addEventListener('load', function () {
+    	    	response = request.responseText;
+    	    	document.getElementById('textBox').innerHTML = response;
+    	    });
+        }
+
+    </script>
+    
+    <style>
+    	input[type=button] {
+    		width:50px;
+    		height:50px;
+    		font-size:20px;
+    	}
+    </style>
+
+  </head>
+  
+  
+  
+  <body>
+	<a onclick="newGame()">Start a new game!</a>
+
+    <table>
+      <tr>
+        <td rowspan="2">
+          <input type="button" id="button6" onclick="buttonClicked(6)" value="0" disabled />
+        </td>
+        <td>
+          <input type="button" id="button5" onclick="buttonClicked(5)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button4" onclick="buttonClicked(4)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button3" onclick="buttonClicked(3)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button2" onclick="buttonClicked(2)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button1" onclick="buttonClicked(1)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button0" onclick="buttonClicked(0)" value="6" />
+        </td>
+        <td rowspan="2">
+          <input type="button" id="button13" onclick="buttonClicked(13)" value="0" disabled/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="button" id="button7" onclick="buttonClicked(7)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button8" onclick="buttonClicked(8)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button9" onclick="buttonClicked(9)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button10" onclick="buttonClicked(10)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button11" onclick="buttonClicked(11)" value="6" />
+        </td>
+        <td>
+          <input type="button" id="button12" onclick="buttonClicked(12)" value="6" />
+        </td>
+      </tr>
+    </table>
+
+	<span id="textBox"></span>
+	
+	<script>newGame()</script>
+
+  </body>
+</html>
